@@ -1,0 +1,8 @@
+# Ignorar bases de datos pesadas 
+*.csv
+*.xlsx
+*.dta
+
+# Ignorar
+*.tmp
+*.log
