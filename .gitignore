@@ -2,7 +2,10 @@
 *.csv
 *.xlsx
 *.dta
+*.db
+*.sqlite3
 
 # Ignorar
 *.tmp
 *.log
+*.zip

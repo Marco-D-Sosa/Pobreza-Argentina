@@ -1,13 +1,4 @@
-/*
-MONOGRAFIA
-
-Diaz de sosa, Marco
-Orestes, Candela
-Pérez Giacchello, Mateo
-Alducín Ramiro
-*/
-
-cd "C:\Users\HP\Documents\Monografia\Bases de datos"
+cd ""
 
 
 *************************************************************************************************************
