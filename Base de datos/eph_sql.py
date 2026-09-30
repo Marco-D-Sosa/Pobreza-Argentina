@@ -15,7 +15,6 @@ Reproducibilidad:
   - Todo se guarda en la misma carpeta que el script (eph.db, .dta y zips temporales).
   - El periodo analizado queda fijo en PRIMER_TRIM / ULTIMO_TRIM.
   - Si algo falla, el script termina con código de error y un resumen (no falla en silencio).
-  - Dependencias: ver requirements.txt (pandas, xlrd, openpyxl).
 """
 import io
 import sqlite3
@@ -25,8 +24,9 @@ import zipfile
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
-
 import pandas as pd
+
+
 
 # ----------------------------------------------------------------------------
 # CONFIGURACIÓN
@@ -35,7 +35,7 @@ CARPETA = Path(__file__).resolve().parent     # el script, la base (eph.db) y el
 DB = CARPETA / "eph.db"
 ZIPS = CARPETA / "zips"
 PRIMER_TRIM = (2016, 3)      # 2016-T2 no se pudo ubicar; las canastas arrancan en 2017 igual
-ULTIMO_TRIM = (2025, 4)      # periodo fijo => resultados reproducibles
+ULTIMO_TRIM = (2025, 4)
 BORRAR_ZIP = True            # False = deja los zip en disco (re-cargar sin internet)
 
 URL_EPH = "https://www.indec.gob.ar/ftp/cuadros/menusuperior/eph/"

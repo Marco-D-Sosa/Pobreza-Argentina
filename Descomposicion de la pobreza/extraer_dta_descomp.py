@@ -7,11 +7,10 @@ Genera:
                          ano4, trimestre, region, pondih, itf, aef, lp_moderada
                          (aef = adultos equivalentes del hogar; lp_moderada = linea de pobreza
                           oficial del trimestre y region de esa persona)
-
 """
+
 import sqlite3
 from pathlib import Path
-
 import pandas as pd
 
 AQUI = Path(__file__).resolve().parent

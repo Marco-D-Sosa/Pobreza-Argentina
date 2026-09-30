@@ -1,5 +1,6 @@
 * ==========================================================================
 * Pobreza en estudiantes universitarios (publico vs privado), todos los semestres
+* + estudiantes que trabajan (publico vs privado), todos los semestres
 * + distribucion de los estudiantes por decil / quintil de ingreso
 *
 * Requisitos:
@@ -15,7 +16,8 @@ clear all
 set more off
 
 * Carpeta de este proyecto
-local proy "C:\Users\HP\Downloads\Pobreza-Argentina\Pobreza universitaria"
+local proy "" 	/// <--- Poner la ruta de la carpeta
+
 cd "`proy'"
 capture mkdir "graficos"
 
@@ -145,7 +147,7 @@ preserve
 restore
 
 
-* --- 4) Graficos de un solo semestre (local sem, arriba) --------------------
+* --- 4) Graficos de un solo semestre --------------------
 * 4a) quintil: barras y torta
 preserve
     use `qui_long', clear
