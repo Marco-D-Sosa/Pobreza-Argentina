@@ -9,7 +9,6 @@
 
 El resultado es un dataset de **~2 millones de filas** (personas-trimestre, 2016-T3 a 2025-T4) con los ingresos, los adultos equivalentes y los indicadores de pobreza ya calculados. Sobre esa base construí dos análisis (descomposición de la pobreza y pobreza en estudiantes universitarios), que están al final como ejemplos de lo que se puede hacer una vez que los datos están listos.
 
-**Contenido:** [Automatización](#automatización-un-comando-en-lugar-de-horas-de-trabajo-manual) · [Velocidad](#velocidad-y-eficiencia) · [Cómo funciona](#cómo-funciona) · [El dataset](#el-dataset-resultante) · [Usos del dataset](#usos-del-dataset) · [Reproducir](#cómo-reproducirlo) · [Estructura](#estructura-del-repositorio) · [Notas metodológicas](#notas-metodológicas-y-limitaciones) · [Fuentes y licencia](#fuentes-y-licencia)
 
 ---
 
@@ -47,13 +46,6 @@ La alternativa obvia sería automatizar la descarga y cargar todo en `pandas`. F
 | Automatizado en Python, todo en memoria (`pandas.concat`) | Bajo | ~2 millones de filas simultáneas | **Más de 10 veces** lo que tarda la versión SQLite |
 | **Este repo (Python + SQLite)** | **Un comando** | **Un trimestre a la vez** | **Referencia** |
 
-Por qué es más eficiente:
-
-- **Un trimestre a la vez.** El consumo de memoria depende del tamaño de un trimestre, no del de toda la serie.
-- **Solo las columnas necesarias.** Se leen 18 variables de cada base, en lugar de la base completa.
-- **Los datos viven en disco.** SQLite guarda, indexa por período y consulta sin cargar todo en RAM.
-- **El cálculo ocurre en SQL.** Adultos equivalentes, pobreza e indigencia se definen como vistas sobre la tabla, sin materializar copias intermedias.
-- **Nada se recarga.** Una vez cargado un trimestre, no se vuelve a descargar ni a procesar.
 
 ## Cómo funciona
 
@@ -69,23 +61,6 @@ flowchart LR
     H --> I["Stata .do<br/>resultados y gráficos"]
 ```
 
-El cálculo de pobreza está escrito en SQL con vistas encadenadas. Por ejemplo, los adultos equivalentes por hogar se obtienen con una función de ventana:
-
-```sql
-CREATE VIEW v_aef AS
-SELECT v_ae.*,
-  SUM(ae) OVER (PARTITION BY codusu, nro_hogar, ano4, trimestre) AS aef
-FROM v_ae;
-```
-
-y cada persona se clasifica comparando el ingreso total familiar por adulto equivalente con la línea de la región y el trimestre correspondientes:
-
-```sql
-CASE WHEN c.lp_moderada IS NULL THEN NULL
-     WHEN h.itf / h.aef < c.lp_moderada THEN 100.0 ELSE 0.0 END AS pobre
-```
-
-Los scripts que extraen datos para cada análisis abren la base en **modo solo lectura**, así que no pueden modificarla por accidente.
 
 ## El dataset resultante
 
