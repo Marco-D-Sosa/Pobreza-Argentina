@@ -2,7 +2,7 @@
 * Descomposicion del cambio en la pobreza (2do semestre) en:
 *   - efecto ingreso       : la distribucion se desplaza (cambia la media real)
 *   - efecto distribucion  : cambia la forma de la distribucion (concentracion / desconcentracion)
-* Metodo: Shapley (Datt-Ravallion), igual al de la monografia. Indices FGT(0), FGT(1), FGT(2).
+* Metodo: Shapley (Datt-Ravallion). Indices FGT(0), FGT(1), FGT(2).
 *
 *   P(L1,mu1) = pobreza del periodo 1
 *   P(L1,mu2) = distribucion del periodo 1 con la media del periodo 2
@@ -27,12 +27,13 @@
 clear all
 set more off
 
-* Carpeta de este proyecto (ajustar)
-local proy "C:\Users\HP\Downloads\Pobreza-Argentina\Descomposicion de la pobreza"
+* Carpeta de este proyecto
+local proy "" 	/// <--- Poner la ruta a la carpeta
+
 cd "`proy'"
 capture mkdir "graficos"
 
-* Indice FGT que se grafica: 0 = incidencia, 1 = brecha, 2 = severidad
+* Indice FGT que se grafica: 0=Incidencia, 1=Brecha, 2=Severidad
 local fgt 0
 
 * --------------------------------------------------------------------------

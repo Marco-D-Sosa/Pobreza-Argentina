@@ -14,11 +14,10 @@ Detalle metodologico (importante, esta todo en este script):
   - Poblacion de referencia: todas las personas con IPCF > 0, ponderadas por PONDIH
     (igual criterio que INDEC: decil 0 = hogar sin ingresos, queda afuera de los 10 deciles).
   - decil = 0 para estudiantes en hogares sin ingresos; vacio si IPCF faltante.
-
 """
+
 import sqlite3
 from pathlib import Path
-
 import numpy as np
 import pandas as pd
 
