@@ -5,7 +5,7 @@
 *
 * Requisitos:
 *   1) eph.db generada con eph_sql.py (python eph_sql.py cargar)
-*   2) python extraer_dta_uni.py  -> crea universitarios.dta y poblacion_deciles.dta
+*   2) python extraer_dta_uni.py  -> crea universitarios.dta
 *
 * Salidas (en la carpeta del proyecto):
 *   resultados_universitarios.xlsx   -> una hoja por tabla
@@ -25,7 +25,7 @@ capture mkdir "graficos"
 local sem "2025-2"
 
 * Archivos temporales
-tempfile total trab_total dec_long qui_long gini_pob
+tempfile total trab_total dec_long qui_long
 
 use "universitarios.dta", clear
 gen gestion = ch11
@@ -34,7 +34,10 @@ label values gestion lg
 keep if inlist(gestion, 1, 2)
 
 * --- 1) Pobreza e indigencia por semestre: total, publica y privada --------
+* Las tasas se ponderan por pondih, asi que n = personas con pondih valido y > 0
+* (las de pondih = 0 o faltante no entran en las tasas ni deben entrar en n).
 preserve
+    quietly keep if !missing(pondih) & pondih > 0
     bysort period: gen n_total = _N
     collapse (mean) pobre indigente n_total [pw=pondih], by(period)
     rename (pobre indigente) (pobre_univ indig_univ)
@@ -42,6 +45,7 @@ preserve
 restore
 
 preserve
+    quietly keep if !missing(pondih) & pondih > 0
     bysort period gestion: gen n = _N
     collapse (mean) pobre indigente n [pw=pondih], by(period gestion)
     reshape wide pobre indigente n, i(period) j(gestion)
@@ -148,7 +152,21 @@ restore
 
 
 * --- 4) Graficos de un solo semestre --------------------
-* 4a) quintil: barras y torta
+* 4a) decil: barras y torta
+preserve
+    use `dec_long', clear
+    keep if period == "`sem'"
+    graph bar pct, over(decil) blabel(bar, format(%4.1f)) ///
+        ytitle("% de estudiantes") b1title("Decil de IPCF") ///
+        title("Estudiantes universitarios por decil, `sem'")
+    graph export "graficos/decil_barras_`sem'.png", width(1600) replace
+
+    graph pie pct, over(decil) plabel(_all percent, format(%3.1f)) ///
+        title("Estudiantes universitarios por decil, `sem'")
+    graph export "graficos/decil_torta_`sem'.png", width(1600) replace
+restore
+
+* 4b) quintil: barras y torta
 preserve
     use `qui_long', clear
     keep if period == "`sem'"
@@ -162,7 +180,7 @@ preserve
     graph export "graficos/quintil_torta_`sem'.png", width(1600) replace
 restore
 
-* 4b) distribucion del ingreso equivalente, publica vs privada
+* 4c) distribucion del ingreso equivalente, publica vs privada
 twoway (kdensity ing_eq [aw=pondih] if period=="`sem'" & gestion==1) ///
        (kdensity ing_eq [aw=pondih] if period=="`sem'" & gestion==2), ///
        legend(order(1 "Publica" 2 "Privada")) title("Ingreso equivalente, `sem'")
