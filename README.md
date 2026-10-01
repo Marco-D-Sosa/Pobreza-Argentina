@@ -175,3 +175,6 @@ Pobreza-Argentina/
 - **En estudiantes universitarios las muestras por semestre son chicas**, en especial en universidades privadas, y no se calculan intervalos de confianza. Conviene leer las tendencias y no cada punto.
 - **Estudiante universitario** = asiste actualmente (`ch10 = 1`) a nivel universitario (`ch12 = 7`).
 - Los `.do` tienen fijado el último período (`2025-2`) para los gráficos de un solo semestre y las comparaciones por gobierno; hay que actualizarlo al extender la serie.
+
+
+Fuente de los datos: INDEC (Encuesta Permanente de Hogares y canastas de pobreza), www.indec.gob.ar. Código bajo licencia MIT.
