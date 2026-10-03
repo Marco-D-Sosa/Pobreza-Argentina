@@ -1,4 +1,4 @@
-# Pobreza-Argentina: de horas de trabajo manual a un solo comando
+# Pipeline ETL y Automatización de datos: de horas de trabajo manual a un solo comando
 
 **Automatización de la descarga, verificación y unión de los datos de la Encuesta Permanente de Hogares (EPH, INDEC), para analizar ingresos y pobreza de forma rápida y sencilla.**
 
